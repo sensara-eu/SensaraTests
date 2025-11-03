@@ -42,8 +42,9 @@ podTemplate(namespace: eu.sensara.Constants.k8sWorkersNamespace, label: podLabel
                 container("node") {
                     confirm(this, "Continue ?")
                     checkout scm
+                    sh "apt install nodejs"
                     sh "node --version"
-                    sh "npm install"
+                    sh "apt install npm"
                     sh "npm --version"
                     confirm(this, "Continue ?")
 
