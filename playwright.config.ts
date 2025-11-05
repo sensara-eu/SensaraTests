@@ -8,22 +8,22 @@ const config: PlaywrightTestConfig = {
       name: "chrome",
       use: {
     ...devices["Desktop Chrome"],
-    headless: false,
+    headless: true,
     screenshot: "on",
     video: "on",
     viewport: {width:1536, height:816}
   }
+    },
+    {
+      name: "firefox",
+      use: {
+    ...devices["Desktop Firefox"],
+    headless: true,
+    screenshot: "on",
+    video: "on",
+    viewport: { width: 1536, height: 816 }
+  }
     }
-  //   {
-  //     name: "firefox",
-  //     use: {
-  //   ...devices["Desktop Firefox"],
-  //   headless: false,
-  //   screenshot: "on",
-  //   video: "on",
-  //   viewport: { width: 1536, height: 816 }
-  // }
-  //   }
 
   ],
   testMatch: ["tests/**/escalationLadders.test.ts"],
