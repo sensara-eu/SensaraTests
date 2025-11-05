@@ -1,0 +1,115 @@
+{
+  "cookies": [
+    {
+      "name": "AUTH_SESSION_ID",
+      "value": "08519dcb-dc02-449f-b7a5-8f7c71c86def.keycloak-1-51524",
+      "domain": "auth.test.sensara.network",
+      "path": "/auth/realms/sensara/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AUTH_SESSION_ID_LEGACY",
+      "value": "08519dcb-dc02-449f-b7a5-8f7c71c86def.keycloak-1-51524",
+      "domain": "auth.test.sensara.network",
+      "path": "/auth/realms/sensara/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "KEYCLOAK_IDENTITY",
+      "value": "eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJlYzIyZTYyZi1iYTkxLTQyZDQtYjc0Ny0xOTNhMDMwYjQ0MTMifQ.eyJleHAiOjE3NjE4Nzg4MTIsImlhdCI6MTc2MTgzNTYxMiwianRpIjoiYmE5ZWMyMjEtZTA2NC00MjY1LWJhNTMtMjYyZjZkZmRkNjJjIiwiaXNzIjoiaHR0cHM6Ly9hdXRoLnRlc3Quc2Vuc2FyYS5uZXR3b3JrL2F1dGgvcmVhbG1zL3NlbnNhcmEiLCJzdWIiOiJmOjNiMGYzZGU2LTlhZmUtNGMyOC05M2RmLTdkZWY4NDFmZDA5MzplM2YyNmFjOC01YTI2LTRlNmMtOGI4NS0xYWIwZjU0ZWFkMzgiLCJ0eXAiOiJTZXJpYWxpemVkLUlEIiwic2Vzc2lvbl9zdGF0ZSI6IjA4NTE5ZGNiLWRjMDItNDQ5Zi1iN2E1LThmN2M3MWM4NmRlZiIsInNpZCI6IjA4NTE5ZGNiLWRjMDItNDQ5Zi1iN2E1LThmN2M3MWM4NmRlZiIsInN0YXRlX2NoZWNrZXIiOiI4Y0R3R1BQRFRhdURPSDZQd1FFQnhaY3I0bGJfT0VnRzRnT0g3M21wNW8wIn0.pKNbAHWstV_Z849tJVuzPTib3GsoahyCl5jzzLrcseM",
+      "domain": "auth.test.sensara.network",
+      "path": "/auth/realms/sensara/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "KEYCLOAK_IDENTITY_LEGACY",
+      "value": "eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJlYzIyZTYyZi1iYTkxLTQyZDQtYjc0Ny0xOTNhMDMwYjQ0MTMifQ.eyJleHAiOjE3NjE4Nzg4MTIsImlhdCI6MTc2MTgzNTYxMiwianRpIjoiYmE5ZWMyMjEtZTA2NC00MjY1LWJhNTMtMjYyZjZkZmRkNjJjIiwiaXNzIjoiaHR0cHM6Ly9hdXRoLnRlc3Quc2Vuc2FyYS5uZXR3b3JrL2F1dGgvcmVhbG1zL3NlbnNhcmEiLCJzdWIiOiJmOjNiMGYzZGU2LTlhZmUtNGMyOC05M2RmLTdkZWY4NDFmZDA5MzplM2YyNmFjOC01YTI2LTRlNmMtOGI4NS0xYWIwZjU0ZWFkMzgiLCJ0eXAiOiJTZXJpYWxpemVkLUlEIiwic2Vzc2lvbl9zdGF0ZSI6IjA4NTE5ZGNiLWRjMDItNDQ5Zi1iN2E1LThmN2M3MWM4NmRlZiIsInNpZCI6IjA4NTE5ZGNiLWRjMDItNDQ5Zi1iN2E1LThmN2M3MWM4NmRlZiIsInN0YXRlX2NoZWNrZXIiOiI4Y0R3R1BQRFRhdURPSDZQd1FFQnhaY3I0bGJfT0VnRzRnT0g3M21wNW8wIn0.pKNbAHWstV_Z849tJVuzPTib3GsoahyCl5jzzLrcseM",
+      "domain": "auth.test.sensara.network",
+      "path": "/auth/realms/sensara/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "KEYCLOAK_SESSION",
+      "value": "sensara/f%3A3b0f3de6-9afe-4c28-93df-7def841fd093%3Ae3f26ac8-5a26-4e6c-8b85-1ab0f54ead38/08519dcb-dc02-449f-b7a5-8f7c71c86def",
+      "domain": "auth.test.sensara.network",
+      "path": "/auth/realms/sensara/",
+      "expires": 1761878812.2651,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "KEYCLOAK_SESSION_LEGACY",
+      "value": "sensara/f%3A3b0f3de6-9afe-4c28-93df-7def841fd093%3Ae3f26ac8-5a26-4e6c-8b85-1ab0f54ead38/08519dcb-dc02-449f-b7a5-8f7c71c86def",
+      "domain": "auth.test.sensara.network",
+      "path": "/auth/realms/sensara/",
+      "expires": 1761878812.265135,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__Host-authjs.csrf-token",
+      "value": "69f74ff7dfec310b7d68cfb5695f69d33685a6d10698936cfb73213f552a8f97%7C7f6827d755295d6abf71b1ac70ed3b2973879eb4726f608ed79c6a1bda688bc8",
+      "domain": "connect.test.sensara.network",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__Secure-authjs.callback-url",
+      "value": "https%3A%2F%2Fconnect.test.sensara.network%2F",
+      "domain": "connect.test.sensara.network",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__Secure-authjs.session-token.0",
+      "value": "eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwia2lkIjoieHliWVFBYy1vQXRDZ3c4Wi1uSUI1RVdUcW0wRTFIdDNqVTZ2Vk1MWERFWmMwZWVNWl9jSTBzS2dXSm9zc0M1cEF4LURGY2ZWblFtNjVhZU0zTmdNSUEifQ..8fg8Zh2k1dJQqxMW0kBSGw.FrNDG68Qmc4knTEEbcfLmZCEC1OT6cprAhx0Ltt9dHAqO9WzSdLBgFu3N-fJpiN6XUSzYcxm_N83AJ2mpxwdTEQ0mY1CMPPqozDaPHZdHyIZqv9gVviVTLrT3bL4ccxHUcauBeAJwMIcD7wc3b22jJpKdGuWYVIDII22hJQvPM77_R8UGqhRFktitI4VBcm0Tdkzb-h35_iQtQCUEt0WAM0hjW78BPzVCG5o2LSVaJoF_9bBFDFod3FosGG8Ou-UmVwn1A4n4yCG90ji-xanHqpjRAnuAZHZSciKKigM6YucuoUEi9-HiaEmKEuWdaFyZxf-pcECrMXL8NnUlQaTUpQdSBj_RKc1wZ_WWIH_JjpaWkYyRz1MjgCpFXEN-pkeyD8qXK8xEN8ic_D4AtT4yydM1G_G6Lq-WcJ2o2d3pgEePQNPMIggmB-pIvgKXwtYZbkschhWkoyGhwmPVWV_epaBA-N9N_Eg0BcJAi9_cBT_39FcMy42DpA6JSH4-zYg5SWrpLbDSrfRjJtjSl736hnfANuO0ezYEzLBwaVDIVNOM780BBAYksXkSsg6gFoMdOaKrd6fCUjS4tEtXZwXaE7TBeOSshDF2RJmAq-T9cuhGqNloqmIU1Jct2FqADfr4PW5S52snZfBxh7tCMTPA4hlnZRfqJqcXBlRzHyY8kPm17Mc7EKFG79no1o_BDSosmpunIPq-GXs0i75VR-gzjSn608yzxXTfLFaDWJwcoTzRVpIjgAXs0bOPD535g-Yh8WF0L8v46zXfyAaI-EoKNb_NtLuxEw1kTPrM3g86V4XL_RisuItoO2Pk32p2pVEySpIb2B8WMwtZ39Lr-JIwDAiANoQQ-EiMuBYCgT-GWt-sPu5te_-XC3swvcDD3n0EOt56B5P01NR-G61kT1Bw5pC3G_w6w_OcyzhvrHIHZw6nGNBsl8sAMH1uSnj1JktLFiKArDG7ICgr1n7Yc5vD6EMTcJwwlHvggqWMvqy2HnOxohw1XNpQnj-NVv8csmsT3xMs8d2lHqc_5QbEG7-g9scKjWHENggN4OhXrs5dmW7_9uFolCLC1R2MkdxEe_e8vLah-i0hAOt-v_q4F2k7xrHCx59JFw3kzMcFn_mU9fkV28K2LLLkBOYHdpRYHT5Cc-wXpHkMjZk0wR8yrJlTRWvFgUffVDzJvmGjLG9Za4D-qArW1SAdzZ86JCPiNYIgZuLJmpnRme9Wko0ifkh3eAMaLMIeQZb6x3ASVbgj8PtGhakoZbpeziKKWDbLIiXIyywSb8qiaEileJVLq2SfuLvR4jmIIt_SK9cqHXiT47EJUunaDLP9dd-LVc9vVEmIMg6I90ciW5U2QU8KQ4j9cT5h8dLBwG-CFZD1ZsVJPLzh1ilv2f7PIltFS8zAL9ZDAurNenpBEIHP-4BtWrgdYcT7o_SpIv8IbIs0VoguHyaikuUGyjHr99mJnnQrnJ5ZZJvqG1s9IGqma3bMj5xByG4qWfE8d5MhIcjjNmCcl06BZ3TeGUT5OAnx_-2R6HmyCuDsu3T9meB8eSh5_njt3giJJ1joFyg5zkSuHjziBXDj65o5hO8zB98hPamMCtpoX5jfWhXNRSdh6nWcTFcfkCxY1GwkJsRkRu65mvj7ZVAz5NV2Q9trQhctQDKp-q5vLMeQnpfVkyEHAlZElbIsN2SrV-XUlzE9f5k8bi19I09PFO9pyuCHIA-S5cw0YCjV9ZfNj-gfu3mMhCtlOnexo_Tek5eG3CLfcYswvCTdug03SiIVG2c7mMk_C3RzS1zvLfmIEnCLgIWbNhVx7D5Q86GSMSUyhhi_GrO6o5j_cew3WSxnACigTvmuB7T21EI1FfptEKT6lCpmJJ5PBqCJ2VjLvTAkxXqqzElvbQZXktuQ9VosCfrnQS93axHQHASmHv1c7r3jZP9qKHj6uuaaHfOGZPfKDia2foyM2SyHSZV3xoKzGl5pxZis6NhPcJ0eA3V4qiB9qKY9-Trlgb7w7nXaT4hgVZyR6VUId7tcyaelzDBUuD0h-tx2msZ0E7tC86gz0XMmSjlsNoIoq3mzH8gW0kxFMtpea4HNDVdSMy_57f9rvU9OXisgFypwDfSoAGdrXcfbqRsgudSG-WA856UjMTsnpGk07q8UJTtSApAE6VjafxI5UVSkQQic4Jte87NFDNzfkB_IOHQJsp0_URzt9AjZura6i1Q-IWr1czo9KCsErXPyYDK6YdmaRUeOLnWyDdYnwdrnlgSzd0Lv_fjx-8w3xH7ESVDUXx18LXtXmArHJCDCtugtWqo4IpGh0U_wI8BGxLwpbPnQdHCnSPF2BFQOlbYzqT3X7IE7PFC6tc0p7Ti5iVYG1E5_pdeZO44ScMX8TF9xD7SXj4hTB9G1YW_CLH3PjPzbPY0AWTzXZbMEidNve6niGwZtoKTDqUqRxq-4VXaJNjnnuswKVPeV6avfzdUaCsJIU0XY5v5jkEjsmZ8jj98kgyXbi5jUOJxZ_KZyNPTyS3XBEOVA5AIDqLvAkbpxXKRV_Tx43GW0izFr-xYNQAQuu8ltddzvBgexldDFbTMqfIGQSa0ol7ul_modqNYWkGCBqcKXKzI9MYBNrEdQ33h7_6uL2IujwtND1t391Ke1oPsvCQ6XkpNqZjCJxqYX8HFjo8vcbtXqr4hirL9K7_QF9JJDdXa66ra9KKEsVlAQUJrWW09b7DodkzcxYP2yZnP3PernYGQqmZtRtIyLsYa11LQlf1TCOKaemevgduiQpSCwb2iS04JDw9y3Y5cOvYRqsBjUwDPvGR4CoBAxRYQ0RXZtEAnJeO1PoGfR3I4JhAyNxMi51GFFvdy8R7uX2ZqlhvqWHegMHML4spCjhElqZ1ETQhD9khQ_KkI3wfQxy9iTCFB4MIyPLpSbkJ4-iSrCky5rcnSMGjxDuXhl8K9dNWXjlx-TalIiqRe9VC7IaGUvuPhC8Df8Cv3TdqUCzQnxtAe-CUehRxDwiE2KlZdUQCARanBs0an8oovHUQPUjGRI6F3gvPUFgGwHyNKvYBHtoWkNAEB8kwMJyat84g48ZwuCREkxt2OWFLnlmasZ731CeMZ4Jyw0kCLri8hqLU2Y0LGW152VhIt6IMrfglyEil_xuu_A3vKdUXkZYs30HhHuklLv37Pr2XHoWSyqxXAvxMSpCpLbqlzyMbcVVcZ8AhNeitl2tpUo5Z1X0_bFlTBb2O_Tp3KNTF4fmjBvVZ3iGTjtOFQ4kMYshxqgVD7hqCP1NYl4kSyU0nEIDlxbb4M6T7wxZ_fY6hKsWG7gHAPh7QhZnYgZLLVN_IUr2cN7uGk0t3t0CAoB6PV4JAjDEqzXplc6nPQoxHfYEZuMaKw-iTSMhEP0eulR05mMGQ7ROgZ_wFKHQ0y3wMEthjJhmbR6dixNQcfCSEZciVk3GShTVBega2_1xE0nmshyVinN15tkYfkheqL_Rk-Oz2S_4pK3kT6Gs88r10k-D2DEd3wQ71zH7LfXec9YVmm0Twbl2vF8zGVMYmv0ml--ZdIwITobj-X5cxcZsdV5LmamDYw6lZJUzb0sNBwfo1fODVUIcw0WmB56hKtGBLBj7zQf-JGhe8g5wFMoxmd7gGh67TsCMsQCEUy0HX0kTi0aPjtNU3uNfZrq3wTLs-0irWBOjuclU_UDVm2fYmbRjAnD9Hrxyj2ZN43SO0TJzNa_fyvNDpGdR8bPiIizoKhsEBZH59W37HnRQo37",
+      "domain": "connect.test.sensara.network",
+      "path": "/",
+      "expires": 1761839212.810226,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__Secure-authjs.session-token.1",
+      "value": "_D71yZRnhmfSA3yewOVTAScLIItofm3p41s3E1CkIk9vtHOTM4l7Mhp93Cn950hYX889cB85iOTIc0TTqiKHVzeItqACX8AdpLuOFw7IYTw2xmnB0-OXNEZENBrcEYDkasH77tqoZ7hj_269SaTic3XowUY8-X__8rKVEA28nbCthaiAjtF4sUeSQXb6oSXl8dSItdZ7SqGP5fz-L--sZ6hklzZPvsNl7nQmW9PQ8bBaBOmswBs2dDkZJ27JatbVVtq-jFnT8dxhvOhOZW84dYazO2htE8cxH26oMHxOqcf80mLTmkURWB2-zz0KhlBgzmKTz_z-RuUnlD1xRTgMZRTsycuxPnGWwxnZycxVDHNrpQ-WxeIUTxUBbQ6gGkfxjOEsj1xSOc7GjVRIHdN8xaX0TR9_U9-eBtSfdyKM4Syyokb0Zdep13cXFd501iePfbRGEC2kFgrzNGTiodbs8Z7P_LbRRh2qdXYxf0rGP4v5BzeBEyeto4ShQD2ZUrXYpJWVAdG9BS_V4_208f9Gx_3HxqF09Czv75yYzL5oMWiokyVG9WwKF4qQB1B8V6nO6gB5F9UN2xqhR3xxaXzpGkfVPugszsf-GzJNCK2mWfqq1K6X3XsMcG3g1DKIx63KK6Qxzk1BT2U-SZcUI7sbpfP8GixIQnp_jXdch-1gnSl9lQ0Sw6yoSTgJGmb-xI6YN-bgnyI_SYEr-LzubfFMcuLeoMp-uQXMq-FqKzpsm6LL1qopZdlLtJC6NWJje6M9UMApZfcK7CtOb_jtS_WX8Lji-G7Po-VQZgqkLE8Ms6SUArDRAKh8sMnSu9esOCkjRvw0NvnRAwOT8vyDKjq8ER61qymvUIs2Ab7dxAQx0mhEDvvaqnsxuRLr7X4TLBXEGoerDHOb61nTs0j3WtSSwr1jBlEvy6bxLYjkAHK9tV0glak8n4eYJ2q3cHjk-O2zx_mPX2u387M0j6t81pgAaH2PQQykro2UPSokezzlD3wTK8Xwnu5CSRUH9P1NepW6rPIXDdi-VxEh1BvjPceREscMYlbSXjuAgYBk6l_6JWoKQDD0imHwecmthJFiuNI1ZK2iM-pO5MRbW-mDs98IkjsBJElNPG4B4q1SPdAJV_uEIpBF2OHsnFdyBoAvjT8yza6W4M7GH5ttGPbnw4PtK9w8Cpg3DwLvpUkXkrWtimTokJG85eVH-yqo811ZRyelG6FM4W5s_rzd-s1tq6EmiqBj5Z0Of-ZaTPCqLRdIxH_DUsReGwncYbQON4IjA6KmEAsPVine0qJyFA54eA_3vOvvkPPaB0amdWVaBBA2_jFp4-znK1iOFHWRBWuZph7MEhLpXhscaLrWRuBGcHBsg-9GilPBoO_LweOacZHOFNvMSyO_y7vFH7ILXmtPW4dIcMYh4XcS7qFpqtNZ_JctHlkq_cAGN3siUfw9rL6Y4Dx5kk3GMZipXuQZNQ4Y9ayce5PYLxxMsKdLgj4qVgwL4hXUi5u4CikQ1_hCyk7mEbtqkndsiLdmXHn3VTk1b95mQRETY08AhQhCqOofViGp5U3o4h0ocWQ6ANIW06PchRY3UXOERhSPfxyOKiu5F8BtaHAWHUuCtC-K3n_XPL_i6tn8gjXflaDTwVQv2TFQRS_SYJInIM3toO6DIur0w.31k7b4_6bCOouoXULDF_WGhOqQqMKtlI5UWkDSftfpc",
+      "domain": "connect.test.sensara.network",
+      "path": "/",
+      "expires": 1761839212.810348,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://xgr3cwwznjz9.statuspage.io",
+      "localStorage": [
+        {
+          "name": "xgr3cwwznjz9.statuspage.io_dismissed",
+          "value": "[]"
+        }
+      ]
+    }
+  ]
+}

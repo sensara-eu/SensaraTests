@@ -1,12 +1,16 @@
 {
     "expectedHeaders": ["Naam","Zorgsectie","Kamerstatus", "Geschiedenis", "Alarminstellingen"],
     "expectedHeadersAfterColumnsOptions": ["Naam","Zorgsectie","Kamerstatus", "Geschiedenis", "Alarminstellingen","Klantnummer","Address","Privacy Mode"],
-    "expectedLabels": ["Naam *","Klantnummer","Privacy Mode *","Straat","Huisnummer","Postcode","Plaats"],
-    "name": "GayathriAsokh",
-    "clientNumber" : "1234",
-    "street" : "wegastraat",
-    "houseNumber" : "5",
-    "postalCode": "2516AK",
-    "city" : "Hague"
-
+    "expectedLabels": ["Naam *","Klantnummer","Privacy Mode *","Straat","Huisnummer","Postcode","Plaats","Telefoonnummer"],
+    "name": "keit",
+    "clientNumber" : "156785678457",
+    "street" : "rijstraat",
+    "houseNumber" : "10",
+    "postalCode": "2567NG",
+    "city" : "del",
+    "TelephoneNumber" : "642157897",
+    "expectedHeaderInAlarmOverViewPage": ["Beschrijving","Aanmaakdatum","Alarm", "Naam", "Zorgsectie", "Behandelaar"],
+    "expectedHeadersAfterColumnsOptionsInAlarmOverViewPage": ["Beschrijving", "Aanmaakdatum","Laatst gewijzigd","Locatie","Geëscaleerd","Alarm","Naam","Zorgsectie","Behandelaar"],
+    "expectedEscalationPageHeader": "Escalatieladders",
+    "expectedHeadersAfterColumnsOptionsInEscalationLadderPage": ["Zorgsectie","Totale doorlooptijd","➛ Stap 1", "➛ Stap 2"]
 }

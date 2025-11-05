@@ -1,4 +1,5 @@
-import  {FullConfig } from "@playwright/test";
+import  { FullConfig } from "@playwright/test";
+
 
 import dotenv from "dotenv"
 
@@ -10,6 +11,8 @@ async function globalSetup(config: FullConfig) {
             override: true
         })
     }
+
+
    
 }
 export default globalSetup;
