@@ -198,27 +198,6 @@ public async addNewEscalationLadders(){
     await saveBTn.click();
 }
 
-public async getAllFirstRowValuesAndDeleteNewlyAdded(){
-    await this.page.waitForLoadState('networkidle');
-    const tableRowBeforeXpathLoc = locators.tableRowBeforeXpath;
-    const tableRowAfterXpathLoc = locators.tableRowAferXpath;
-    const tableRowLoc = locators.tableRow;
-    const tableBeforeDelBtnXpath = locators.tableBeforeDelBtn;
-    const tableAfterDelBtnXpath = locators.tableAfterDelBtn;
-    const rowCount = await this.page.locator(tableRowLoc).count();
-    const toDeleteBtnXpathLoc = await this.findLocator(locators.toDeleteBtnXpath);
-  
-    for (let i = 1; i <= rowCount; i++) { 
-        const firstColumnText = await this.page.locator(`${tableRowBeforeXpathLoc}[${i}]${tableRowAfterXpathLoc}`).textContent();
-        if (firstColumnText && firstColumnText.includes('GayathriTest')) {
-            const deleteBtnLocator = `${tableBeforeDelBtnXpath}[${i}]${tableAfterDelBtnXpath}`;
-            await this.page.locator(deleteBtnLocator).click();
-            await this.page.waitForTimeout(2000);
-            await toDeleteBtnXpathLoc.waitFor({ state: "visible" });
-            await toDeleteBtnXpathLoc.scrollIntoViewIfNeeded();
-            await toDeleteBtnXpathLoc.click();
-        }
-    }
-}
 
 }
+

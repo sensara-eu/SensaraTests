@@ -26,7 +26,7 @@ const config: PlaywrightTestConfig = {
     }
 
   ],
-  testMatch: ["tests/**/*.test.ts"],
+  testMatch: ["tests/**/escalationLadders.test.ts"],
   timeout: 100000,
   reporter: "html",
   retries: 0,

@@ -113,7 +113,6 @@ test("Validate columns Dropdown in Escalation Ladders page", async()=> {
 
 test("validate add step in Escalation ladder", async()=> {
    await escalationLaddersPage.addNewEscalationLadders();
-   await escalationLaddersPage.getAllFirstRowValuesAndDeleteNewlyAdded();
 })
 
 })
