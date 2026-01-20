@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        env_name: [test, acceptance] # Run once for each environment
+        env_name: [test, acceptance] # Run once per environment
 
     steps:
       # ---------------- Checkout ----------------
@@ -48,29 +48,31 @@ jobs:
         run: |
           npx allure generate allure-results --clean -o allure-report
 
-      # ---------------- Zip Allure Report for Download ----------------
-      - name: Zip Allure Report
-        if: always()
-        run: |
-          zip -r allure-report-${{ matrix.env_name }}.zip allure-report
-
-      # ---------------- Upload Playwright HTML Report ----------------
-      - name: Upload Playwright HTML Report
-        if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-report-${{ matrix.env_name }}
-          path: playwright-report/
-          retention-days: 30
-
-      # ---------------- Upload Allure Report Artifact ----------------
+      # ---------------- Upload Allure Report ----------------
       - name: Upload Allure Report Artifact
-        if: ${{ !cancelled() }}
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: allure-report-${{ matrix.env_name }}
-          path: allure-report-${{ matrix.env_name }}.zip
+          path: allure-report/
           retention-days: 30
+
+      # ---------------- Generate Artifact URL ----------------
+      - name: Generate Allure Artifact URL
+        if: always()
+        id: artifact_url
+        env:
+          ENV_NAME: ${{ matrix.env_name }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          RESPONSE=$(curl -s \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts")
+
+          ARTIFACT_ID=$(echo "$RESPONSE" | jq -r ".artifacts[] | select(.name==\"allure-report-${ENV_NAME}\") | .id")
+          ARTIFACT_URL="https://github.com/${GITHUB_REPOSITORY}/actions/artifacts/${ARTIFACT_ID}"
+          echo "ARTIFACT_URL=$ARTIFACT_URL" >> $GITHUB_ENV
 
       # ---------------- Slack Notification ----------------
       - name: Slack Notification
@@ -78,6 +80,7 @@ jobs:
         env:
           ENV_NAME: ${{ matrix.env_name }}
           EXIT_CODE: ${{ env.TEST_EXIT_CODE }}
+          ARTIFACT_URL: ${{ env.ARTIFACT_URL }}
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         run: |
           if [ "$EXIT_CODE" -eq 0 ]; then
@@ -85,9 +88,6 @@ jobs:
           else
             STATUS=":x: Playwright Tests Failed"
           fi
-
-          # Downloadable artifact URL (works without GITHUB_TOKEN)
-          ARTIFACT_URL="https://github.com/${GITHUB_REPOSITORY}/suites/${GITHUB_RUN_ID}/artifacts/allure-report-${ENV_NAME}?archive=zip"
 
           curl -X POST -H "Content-type: application/json" \
             -H "Authorization: Bearer $SLACK_BOT_TOKEN" \
