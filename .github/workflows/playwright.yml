@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ main, master ]
 
+permissions:
+  contents: read
+  actions: read
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -17,12 +21,15 @@ jobs:
 
     steps:
       # ---------------- Checkout ----------------
-      - uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
       # ---------------- Node setup ----------------
-      - uses: actions/setup-node@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: lts/*
+          cache: 'npm'
 
       # ---------------- Install deps ----------------
       - name: Install dependencies
@@ -31,54 +38,41 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
+      # ---------------- Ensure jq ----------------
+      - name: Ensure jq is installed
+        run: |
+          if ! command -v jq >/dev/null 2>&1; then
+            echo "jq not found. Installing..."
+            sudo apt-get update
+            sudo apt-get install -y jq
+          else
+            echo "jq already installed: $(jq --version)"
+          fi
+
       # ---------------- Run tests ----------------
       - name: Run Playwright tests
         id: run_tests
-        run: |
-          npx playwright test
-          echo "TEST_EXIT_CODE=$?" >> $GITHUB_ENV
         env:
           test_env: ${{ matrix.env_name }}
+        run: |
+          EXIT_CODE=0
+          npx playwright test || EXIT_CODE=$?
+          echo "TEST_EXIT_CODE=$EXIT_CODE" >> $GITHUB_ENV
 
       # ---------------- Generate Allure HTML ----------------
       - name: Generate Allure HTML Report
+        if: always()
         run: |
-          npx allure generate allure-results --clean -o allure-report
+          npx allure generate allure-results --clean -o allure-report || true
 
-      # ---------------- Upload Allure Report as artifact ----------------
+      # ---------------- Upload Allure Report ----------------
       - name: Upload Allure Report
-        id: upload_report
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: allure-report-${{ matrix.env_name }}
           path: allure-report/
           retention-days: 30
-
-      # ---------------- Get download URL via GitHub API ----------------
-      - name: Get artifact download link
-        id: get_download_url
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ENV_NAME: ${{ matrix.env_name }}
-        run: |
-          # 1. List artifacts for this run
-          RESPONSE=$(curl -s \
-            -H "Authorization: Bearer $GITHUB_TOKEN" \
-            -H "Accept: application/vnd.github+json" \
-            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts")
-
-          # 2. Find the artifact ID by name
-          ARTIFACT_ID=$(echo "$RESPONSE" | jq -r \
-            ".artifacts[] | select(.name==\"allure-report-${ENV_NAME}\") | .id")
-
-          # 3. GitHub API gives a *time-limited* link for the actual download
-          DOWNLOAD_URL=$(curl -s -X GET \
-            -H "Authorization: Bearer $GITHUB_TOKEN" \
-            -H "Accept: application/vnd.github+json" \
-            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/${ARTIFACT_ID}/zip" \
-            -I | grep -i 'Location:' | awk '{print $2}' | tr -d '\r')
-
-          echo "ARTIFACT_DOWNLOAD_URL=$DOWNLOAD_URL" >> $GITHUB_ENV
 
       # ---------------- Slack Notification ----------------
       - name: Slack Notification
@@ -86,7 +80,6 @@ jobs:
         env:
           ENV_NAME: ${{ matrix.env_name }}
           EXIT_CODE: ${{ env.TEST_EXIT_CODE }}
-          DOWNLOAD_URL: ${{ env.ARTIFACT_DOWNLOAD_URL }}
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         run: |
           if [ "$EXIT_CODE" -eq 0 ]; then
@@ -95,14 +88,20 @@ jobs:
             STATUS=":x: Playwright Tests Failed"
           fi
 
-          curl -X POST -H "Content-type: application/json" \
+          WORKFLOW_URL="https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+
+          RESPONSE=$(curl -s -X POST \
+            -H "Content-type: application/json" \
             -H "Authorization: Bearer $SLACK_BOT_TOKEN" \
             --data "{
               \"channel\": \"#automation-testresults\",
               \"blocks\": [
                 {
                   \"type\": \"section\",
-                  \"text\": {\"type\": \"mrkdwn\", \"text\": \"${STATUS}\\n*Environment:* ${ENV_NAME}\"}
+                  \"text\": {
+                    \"type\": \"mrkdwn\",
+                    \"text\": \"${STATUS}\\n*Environment:* ${ENV_NAME}\"
+                  }
                 },
                 {
                   \"type\": \"section\",
@@ -115,11 +114,16 @@ jobs:
                 },
                 {
                   \"type\": \"section\",
-                  \"text\": {\"type\": \"mrkdwn\", \"text\": \":page_facing_up: Download Allure report: <${DOWNLOAD_URL}|Click Here>\\n:link: View Workflow: <https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}|View Workflow>\"}
+                  \"text\": {
+                    \"type\": \"mrkdwn\",
+                    \"text\": \":page_facing_up: View Allure report in artifacts\\n:link: <${WORKFLOW_URL}|View Workflow Run>\"
+                  }
                 }
               ]
             }" \
-            https://slack.com/api/chat.postMessage
+            https://slack.com/api/chat.postMessage)
+
+          echo "Slack response: $RESPONSE"
 
       # ---------------- Fail job if tests failed ----------------
       - name: Fail job if tests failed
