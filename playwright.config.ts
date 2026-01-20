@@ -8,7 +8,7 @@ const config: PlaywrightTestConfig = {
       name: "chrome",
       use: {
     ...devices["Desktop Chrome"],
-    headless: false,
+    headless: true,
     screenshot: "on",
     video: "on",
     viewport: {width:1536, height:816}
