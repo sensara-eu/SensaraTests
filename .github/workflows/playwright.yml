@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        env_name: [test, acceptance]  # Run once for "test" and once for "acceptance"
+        env_name: [test, acceptance] # Run once for "test" and once for "acceptance"
 
     steps:
       - uses: actions/checkout@v4
@@ -31,11 +31,35 @@ jobs:
       - name: Run Playwright tests for ${{ matrix.env_name }} environment
         run: npx playwright test
         env:
-          test_env: ${{ matrix.env_name }}  # This matches what you use locally (process.env.test_env)
+          test_env: ${{ matrix.env_name }}
 
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
-          name: playwright-report-${{ matrix.env_name }}  # Separate report per environment
+          name: playwright-report-${{ matrix.env_name }}
           path: playwright-report/
           retention-days: 30
+
+      # ---------------- SLACK NOTIFICATIONS ----------------
+
+      - name: Slack Notification - Success
+        if: success()
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+          --data '{
+            "text": ":white_check_mark: *Playwright Tests Passed*\n• Environment: *${{ matrix.env_name }}*\n• Branch: *${{ github.ref_name }}*\n• Run: <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Details>"
+          }' \
+          $SLACK_WEBHOOK_URL
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Slack Notification - Failure
+        if: failure()
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+          --data '{
+            "text": ":x: *Playwright Tests Failed*\n• Environment: *${{ matrix.env_name }}*\n• Branch: *${{ github.ref_name }}*\n• Logs: <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Logs>"
+          }' \
+          $SLACK_WEBHOOK_URL
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
