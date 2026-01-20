@@ -48,14 +48,14 @@ Allure artifact downloaded (e.g. allure-report-acceptance.zip or allure-report-t
 ### Steps
 - Open a terminal and navigate to your Downloads folder
 - Create a folder and unzip the artifact
-    mkdir allure-report-acceptance
-    unzip allure-report-acceptance.zip -d allure-report-acceptance
+    * mkdir allure-report-acceptance
+    * unzip allure-report-acceptance.zip -d allure-report-acceptance
 - Navigate into the report directory
-    cd allure-report-acceptance
+    * cd allure-report-acceptance
 - Start a local web server
-    python3 -m http.server 8080
+    * python3 -m http.server 8080
 - Open the report in your browser
-     http://localhost:8080
+    * http://localhost:8080
 
 ## Important Notes
 * Do not open index.html by double-clicking it
