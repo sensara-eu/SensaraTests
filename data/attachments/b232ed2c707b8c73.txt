@@ -1,0 +1,8 @@
+Klantnummer
+Naam
+Address
+Privacy Mode
+Zorgsectie
+Kamerstatus
+Geschiedenis
+Alarminstellingen

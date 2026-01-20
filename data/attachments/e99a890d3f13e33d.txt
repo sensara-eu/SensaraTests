@@ -1,0 +1,5 @@
+Naam
+Zorgsectie
+Kamerstatus
+Geschiedenis
+Alarminstellingen

@@ -1,0 +1,6 @@
+Clicking on: BathroomGuard
+Clicking on: LifeCircleDetection
+Clicking on: MobilityMonitoring
+Clicking on: OutOfBed
+Clicking on: OutOfChair
+Clicking on: OutOfRoom

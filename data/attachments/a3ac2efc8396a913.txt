@@ -1,0 +1,9 @@
+Clicking on: Bedsensor losgekoppeld
+Clicking on: Gedegradeerd
+Clicking on: In badkamer
+Clicking on: In bed
+Clicking on: In stoel
+Clicking on: In kamer
+Clicking on: Uit kamer
+Clicking on: Onbekend
+Clicking on: Onbekend
