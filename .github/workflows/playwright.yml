@@ -2,17 +2,12 @@ name: Playwright Tests
 
 on:
   push:
-    branches: [main, master]
+    branches: [ main, master ]
   pull_request:
-    branches: [main, master]
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+    branches: [ main, master ]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     timeout-minutes: 90
 
@@ -29,14 +24,14 @@ jobs:
         with:
           node-version: lts/*
 
-      # ---------------- Install dependencies ----------------
+      # ---------------- Install deps ----------------
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Playwright Browsers
+      - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      # ---------------- Run Playwright tests ----------------
+      # ---------------- Run tests ----------------
       - name: Run Playwright tests
         id: run_tests
         run: |
@@ -47,13 +42,43 @@ jobs:
 
       # ---------------- Generate Allure HTML ----------------
       - name: Generate Allure HTML Report
-        run: npx allure generate allure-results --clean -o allure-report
+        run: |
+          npx allure generate allure-results --clean -o allure-report
 
-      # ---------------- Upload Allure as Pages Artifact ----------------
-      - name: Upload Allure Report Artifact
-        uses: actions/upload-pages-artifact@v4
+      # ---------------- Upload Allure Report as artifact ----------------
+      - name: Upload Allure Report
+        id: upload_report
+        uses: actions/upload-artifact@v4
         with:
-          path: ./allure-report
+          name: allure-report-${{ matrix.env_name }}
+          path: allure-report/
+          retention-days: 30
+
+      # ---------------- Get download URL via GitHub API ----------------
+      - name: Get artifact download link
+        id: get_download_url
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ENV_NAME: ${{ matrix.env_name }}
+        run: |
+          # 1. List artifacts for this run
+          RESPONSE=$(curl -s \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts")
+
+          # 2. Find the artifact ID by name
+          ARTIFACT_ID=$(echo "$RESPONSE" | jq -r \
+            ".artifacts[] | select(.name==\"allure-report-${ENV_NAME}\") | .id")
+
+          # 3. GitHub API gives a *time-limited* link for the actual download
+          DOWNLOAD_URL=$(curl -s -X GET \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/${ARTIFACT_ID}/zip" \
+            -I | grep -i 'Location:' | awk '{print $2}' | tr -d '\r')
+
+          echo "ARTIFACT_DOWNLOAD_URL=$DOWNLOAD_URL" >> $GITHUB_ENV
 
       # ---------------- Slack Notification ----------------
       - name: Slack Notification
@@ -61,7 +86,7 @@ jobs:
         env:
           ENV_NAME: ${{ matrix.env_name }}
           EXIT_CODE: ${{ env.TEST_EXIT_CODE }}
-          REPORT_URL: https://${{ github.repository_owner }}.github.io/${{ github.repository }}/
+          DOWNLOAD_URL: ${{ env.ARTIFACT_DOWNLOAD_URL }}
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         run: |
           if [ "$EXIT_CODE" -eq 0 ]; then
@@ -90,7 +115,7 @@ jobs:
                 },
                 {
                   \"type\": \"section\",
-                  \"text\": {\"type\": \"mrkdwn\", \"text\": \":page_facing_up: View Allure report: <${REPORT_URL}|Click Here>\\n:link: View Workflow: <https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}|View Workflow>\"}
+                  \"text\": {\"type\": \"mrkdwn\", \"text\": \":page_facing_up: Download Allure report: <${DOWNLOAD_URL}|Click Here>\\n:link: View Workflow: <https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}|View Workflow>\"}
                 }
               ]
             }" \
@@ -100,17 +125,3 @@ jobs:
       - name: Fail job if tests failed
         if: env.TEST_EXIT_CODE != '0'
         run: exit 1
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-
-    steps:
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
