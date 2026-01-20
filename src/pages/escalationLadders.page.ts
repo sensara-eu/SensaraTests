@@ -166,7 +166,7 @@ public async addNewEscalationLadders(){
     const delayStep1Text = await delayStep1.textContent();
     expect(delayStep1Text).toContain("Vertraging stap 1");
     console.log(`value`, delayStep1Text);
-
+    await this.page.waitForTimeout(8000);
     const trashBtn = await this.findLocator(locators.trashBtnXpath);
     await trashBtn.waitFor({ state: "visible" });
     await trashBtn.click();

@@ -151,7 +151,7 @@ public async fillUsersPageFormData(nameUsersData:string,passwordUsersData:string
   await sectorUsersDataForm.fill(sectorsUserData);
   await nameUsersDataForm.waitFor({state:"visible"});
   await nameUsersDataForm.fill(nameUsersData);
-  await this.page.waitForTimeout(1000);
+  await this.page.waitForTimeout(8000);
   await saveBtn.waitFor({state:"visible"});
    await saveBtn.scrollIntoViewIfNeeded();
   await saveBtn.click();
