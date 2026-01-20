@@ -53,7 +53,9 @@ jobs:
       - name: Publish Allure Report to GitHub Pages
         if: always()
         run: |
-          npx gh-pages -d allure-report -b gh-pages -r https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+        npx gh-pages -d allure-report \
+        -b gh-pages \
+        -r https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
 
       # ---------------- Prepare GitHub Pages URL ----------------
       - name: Set Allure Report URL
