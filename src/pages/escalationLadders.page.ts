@@ -181,10 +181,10 @@ public async addNewEscalationLadders(){
 
     const selectDropdown = await this.findLocator(locators.selectXpath);
     await selectDropdown.nth(1).waitFor({ state: "visible" });
-    await selectDropdown.nth(1).selectOption({ label: 'GayuShift' });
+    await selectDropdown.nth(1).selectOption({ label: 'APITestSHIFT' });
     await this.page.waitForTimeout(2000); 
     await this.page.locator('body').click(); 
-    await selectDropdown.nth(1).selectOption({ label: 'GayuShift' });
+    await selectDropdown.nth(1).selectOption({ label: 'APITestSHIFT' });
      await this.page.waitForTimeout(2000); 
 
      const stepDelayLoc = await this.findLocator(locators.stepDelayXpath);

@@ -200,6 +200,7 @@ public async validatePaginationFunctionalityForRightStroke(){
     const firstPageItems = await numberOfItems.first().textContent();
     await paginationRightBtn.waitFor({state: 'visible'});
     await paginationRightBtn.click();
+    await paginationRightBtn.click();
     await this.page.waitForLoadState("networkidle");
      await this.page.waitForTimeout(5000);
     const secondPageItems = await numberOfItems.first().textContent();
@@ -212,6 +213,7 @@ public async validatePaginationFunctionalityForLeftStroke(){
     const numberOfItems = await this.findLocator(locators.tabledataXpath);
     const secondPageItems = await numberOfItems.first().textContent();
     await paginationLeftBtn.waitFor({state: 'visible'});
+    await paginationLeftBtn.click();
     await paginationLeftBtn.click();
     await this.page.waitForLoadState("networkidle");
     await this.page.waitForTimeout(5000);

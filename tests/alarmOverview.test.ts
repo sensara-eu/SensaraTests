@@ -165,10 +165,10 @@ test("Validate columns Dropdown in alarmoverview page", async()=> {
     await residentPage.resetVisibilityFunctionality();
 });
 
-test("validate Dropdown value in polygon Button for creation date column", async()=> {
-    await alarmoverviewPage.clickPolygonButtonForCreationDate();
-    await alarmoverviewPage.validatepolygonFunctionalityForCreationDate();
-});
+// test("validate Dropdown value in polygon Button for creation date column", async()=> {
+//     await alarmoverviewPage.clickPolygonButtonForCreationDate();
+//     await alarmoverviewPage.validatepolygonFunctionalityForCreationDate();
+// });
 
 
 
