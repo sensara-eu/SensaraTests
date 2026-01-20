@@ -6,27 +6,37 @@ on:
   pull_request:
     branches: [main, master]
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 90
 
     strategy:
       matrix:
         env_name: [test, acceptance]
 
     steps:
+      # ---------------- Checkout ----------------
       - uses: actions/checkout@v4
+
+      # ---------------- Node setup ----------------
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
 
+      # ---------------- Install dependencies ----------------
       - name: Install dependencies
         run: npm ci
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
+      # ---------------- Run Playwright tests ----------------
       - name: Run Playwright tests
         id: run_tests
         run: |
@@ -35,14 +45,17 @@ jobs:
         env:
           test_env: ${{ matrix.env_name }}
 
+      # ---------------- Generate Allure HTML ----------------
       - name: Generate Allure HTML Report
         run: npx allure generate allure-results --clean -o allure-report
 
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+      # ---------------- Upload Allure as Pages Artifact ----------------
+      - name: Upload Allure Report Artifact
+        uses: actions/upload-pages-artifact@v4
         with:
           path: ./allure-report
 
+      # ---------------- Slack Notification ----------------
       - name: Slack Notification
         if: always()
         env:
@@ -51,24 +64,39 @@ jobs:
           REPORT_URL: https://${{ github.repository_owner }}.github.io/${{ github.repository }}/
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         run: |
-          if [ "$EXIT_CODE" -eq 0 ]; then STAT=":white_check_mark: Tests Passed"; else STAT=":x: Tests Failed"; fi
+          if [ "$EXIT_CODE" -eq 0 ]; then
+            STATUS=":white_check_mark: Playwright Tests Passed"
+          else
+            STATUS=":x: Playwright Tests Failed"
+          fi
+
           curl -X POST -H "Content-type: application/json" \
             -H "Authorization: Bearer $SLACK_BOT_TOKEN" \
             --data "{
-              \"channel\":\"#automation-testresults\",
+              \"channel\": \"#automation-testresults\",
               \"blocks\": [
-                {\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"${STAT}\\n*Environment:* ${ENV_NAME}\"}},
-                {\"type\":\"section\",\"fields\":[
-                    {\"type\":\"mrkdwn\",\"text\":\"*Repository:*\\n${GITHUB_REPOSITORY}\"},
-                    {\"type\":\"mrkdwn\",\"text\":\"*Branch:*\\n${GITHUB_REF_NAME}\"},
-                    {\"type\":\"mrkdwn\",\"text\":\"*Triggered by:*\\n${GITHUB_ACTOR}\"},
-                    {\"type\":\"mrkdwn\",\"text\":\"*Commit:*\\n${GITHUB_SHA}\"}
-                ]},
-                {\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\":page_facing_up: View Allure report: <${REPORT_URL}|Click Here>\\n:link: View Workflow: <https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}|View Workflow>\"}}
+                {
+                  \"type\": \"section\",
+                  \"text\": {\"type\": \"mrkdwn\", \"text\": \"${STATUS}\\n*Environment:* ${ENV_NAME}\"}
+                },
+                {
+                  \"type\": \"section\",
+                  \"fields\": [
+                    {\"type\": \"mrkdwn\", \"text\": \"*Repository:*\\n${GITHUB_REPOSITORY}\"},
+                    {\"type\": \"mrkdwn\", \"text\": \"*Branch:*\\n${GITHUB_REF_NAME}\"},
+                    {\"type\": \"mrkdwn\", \"text\": \"*Triggered by:*\\n${GITHUB_ACTOR}\"},
+                    {\"type\": \"mrkdwn\", \"text\": \"*Commit:*\\n${GITHUB_SHA}\"}
+                  ]
+                },
+                {
+                  \"type\": \"section\",
+                  \"text\": {\"type\": \"mrkdwn\", \"text\": \":page_facing_up: View Allure report: <${REPORT_URL}|Click Here>\\n:link: View Workflow: <https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}|View Workflow>\"}
+                }
               ]
             }" \
             https://slack.com/api/chat.postMessage
 
+      # ---------------- Fail job if tests failed ----------------
       - name: Fail job if tests failed
         if: env.TEST_EXIT_CODE != '0'
         run: exit 1
