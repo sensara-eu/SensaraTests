@@ -38,3 +38,26 @@ Follow these steps to set up the project and run the tests:
 
 ### Github pipeline
   Added playwright.yaml file, so the code will be execued in both test and acceptance environment in github pipeline when you push the code to git.
+
+## 📊 Open Allure Report (Local)
+
+After downloading the Allure report artifact from GitHub Actions, follow these steps to view it locally.
+### Prerequisites
+Allure artifact downloaded (e.g. allure-report-acceptance.zip or allure-report-test.zip)
+
+### Steps
+- Open a terminal and navigate to your Downloads folder
+- Create a folder and unzip the artifact
+    mkdir allure-report-acceptance
+    unzip allure-report-acceptance.zip -d allure-report-acceptance
+- Navigate into the report directory
+    cd allure-report-acceptance
+- Start a local web server
+    python3 -m http.server 8080
+- Open the report in your browser
+     http://localhost:8080
+
+## Important Notes
+* Do not open index.html by double-clicking it
+* Allure reports must be served over HTTP
+* If port 8080 is already in use, try another port or close the terminal in use.
