@@ -1,21 +1,19 @@
-name: Playwright CI Pipeline
+name: Playwright Tests
 
 on:
   push:
-    branches:
-      - main
-      - master
+    branches: [ main, master ]
   pull_request:
-    branches:
-      - main
-      - master
+    branches: [ main, master ]
 
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
+
     strategy:
       matrix:
-        environment: [test, acceptance]
+        env_name: [test, acceptance]
 
     steps:
       # ---------------- Checkout & Setup ----------------
@@ -34,13 +32,10 @@ jobs:
         run: npx playwright install --with-deps
 
       # ---------------- Run Playwright Tests ----------------
-      - name: Run Playwright tests
-        id: run_tests
-        run: |
-          npx playwright test
-          echo "TEST_EXIT_CODE=$?" >> $GITHUB_ENV
+      - name: Run Playwright tests for ${{ matrix.env_name }} environment
+        run: npx playwright test
         env:
-          TEST_ENV: ${{ matrix.environment }}
+          test_env: ${{ matrix.env_name }}
 
       # ---------------- Generate Allure Report ----------------
       - name: Generate Allure HTML Report
@@ -50,76 +45,58 @@ jobs:
       # ---------------- Zip Allure Report ----------------
       - name: Zip Allure Report
         if: always()
-        run: zip -r allure-report-${{ matrix.environment }}.zip allure-report
+        run: zip -r allure-report-${{ matrix.env_name }}.zip allure-report
 
-      # ---------------- Upload Allure Artifact ----------------
-      - name: Upload Allure Artifact
-        if: always()
+      # ---------------- Upload Artifacts ----------------
+      - name: Upload Playwright HTML Report
+        if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
-          name: allure-report-${{ matrix.environment }}
-          path: allure-report-${{ matrix.environment }}.zip
+          name: playwright-report-${{ matrix.env_name }}
+          path: playwright-report/
           retention-days: 30
 
-      # ---------------- Generate Artifact URL ----------------
-      - name: Generate Artifact URL
-        if: always()
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ENV_NAME: ${{ matrix.environment }}
+      - name: Upload Allure Report Artifact
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report-${{ matrix.env_name }}
+          path: allure-report-${{ matrix.env_name }}.zip
+          retention-days: 30
+
+      # ---------------- Slack Notifications ----------------
+      - name: Slack Notification - Success
+        if: success()
         run: |
-          RESPONSE=$(curl -s \
-            -H "Authorization: Bearer $GH_TOKEN" \
-            -H "Accept: application/vnd.github+json" \
-            https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts)
-
-          ARTIFACT_ID=$(echo "$RESPONSE" | jq -r ".artifacts[] | select(.name==\"allure-report-${ENV_NAME}\") | .id")
-
-          ARTIFACT_URL="https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts/${ARTIFACT_ID}"
-
-          echo "ARTIFACT_URL=$ARTIFACT_URL" >> $GITHUB_ENV
-
-      # ---------------- Slack Notification ----------------
-      - name: Slack notification
-        if: always()
+          curl -X POST -H 'Content-type: application/json' \
+          --data '{
+            "text": ":white_check_mark: *Playwright Tests Passed*\n
+• Environment: *${{ matrix.env_name }}*\n
+• Repository: *${{ github.repository }}*\n
+• Branch: *${{ github.ref_name }}*\n
+• Triggered by: *${{ github.actor }}*\n
+• Commit: `${{ github.sha }}`\n
+• Download Allure Report: <${{ github.server_url }}/${{ github.repository }}/suites/artifacts?query=allure-report-${{ matrix.env_name }}|Click Here>\n
+• View Workflow: <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Workflow>"
+          }' \
+          $SLACK_WEBHOOK_URL
         env:
-          ENV_NAME: ${{ matrix.environment }}
-          EXIT_CODE: ${{ env.TEST_EXIT_CODE }}
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Slack Notification - Failure
+        if: failure()
         run: |
-          if [ "$EXIT_CODE" -eq 0 ]; then
-            STATUS=":white_check_mark: Tests Passed"
-          else
-            STATUS=":x: Tests Failed"
-          fi
-
-          curl -X POST -H "Content-type: application/json" \
-            -H "Authorization: Bearer $SLACK_BOT_TOKEN" \
-            --data "{
-              \"channel\": \"#automation-testresults\",
-              \"blocks\": [
-                {
-                  \"type\": \"section\",
-                  \"text\": {\"type\": \"mrkdwn\", \"text\": \"${STATUS}\\n*Environment:* ${ENV_NAME}\"}
-                },
-                {
-                  \"type\": \"section\",
-                  \"fields\": [
-                    {\"type\": \"mrkdwn\", \"text\": \"*Repository:*\\n${GITHUB_REPOSITORY}\"},
-                    {\"type\": \"mrkdwn\", \"text\": \"*Branch:*\\n${GITHUB_REF_NAME}\"},
-                    {\"type\": \"mrkdwn\", \"text\": \"*Triggered by:*\\n${GITHUB_ACTOR}\"},
-                    {\"type\": \"mrkdwn\", \"text\": \"*Commit:*\\n${GITHUB_SHA}\"}
-                  ]
-                },
-                {
-                  \"type\": \"section\",
-                  \"text\": {\"type\": \"mrkdwn\", \"text\": \":page_facing_up: Download Allure report: <${ARTIFACT_URL}|Click Here>\\n:link: View Workflow: <https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}|View Workflow>\"}
-                }
-              ]
-            }" \
-            https://slack.com/api/chat.postMessage
-
-      # ---------------- Fail Job if Tests Failed ----------------
-      - name: Fail job if tests failed
-        if: env.TEST_EXIT_CODE != '0'
-        run: exit 1
+          curl -X POST -H 'Content-type: application/json' \
+          --data '{
+            "text": ":x: *Playwright Tests Failed*\n
+• Environment: *${{ matrix.env_name }}*\n
+• Repository: *${{ github.repository }}*\n
+• Branch: *${{ github.ref_name }}*\n
+• Triggered by: *${{ github.actor }}*\n
+• Commit: `${{ github.sha }}`\n
+• Download Allure Report: <${{ github.server_url }}/${{ github.repository }}/suites/artifacts?query=allure-report-${{ matrix.env_name }}|Click Here>\n
+• View Workflow: <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Workflow>"
+          }' \
+          $SLACK_WEBHOOK_URL
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
