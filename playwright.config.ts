@@ -28,7 +28,10 @@ const config: PlaywrightTestConfig = {
   ],
   testMatch: ["tests/**/a_resident.test.ts"],
   timeout: 100000,
-  reporter: "html",
+  reporter: [
+    ['html', { open: 'never' }],
+     ['allure-playwright']  
+  ],
   retries: 0,
   globalSetup: path.resolve(__dirname, "src/utils/globalSetup.ts"),
 };
