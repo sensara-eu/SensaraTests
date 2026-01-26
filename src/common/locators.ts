@@ -75,7 +75,7 @@ const Locators = {
  toDateValueXpath: "//button[normalize-space(text())='3']",
  escalationLaddersXpath : "//span[text()='Escalatieladders']",
  escalationLaddersHeader: "table thead th",
- addEscalationLadderXpath: "button:has-text('Toevoegen')",
+ addEscalationLadderXpath: "//button[contains(text(),'Toevoegen')]",
  addEscalationLadderHeaderXpath: "//h2[text()='Nieuwe escalatieladder']",
  startSectorLabelXpath: "//label[text()='Start sector']",
  selectStartSectorXpath: "//span[text()='Kies een startsector']",
